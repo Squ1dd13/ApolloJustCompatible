@@ -1,18 +1,21 @@
 #include <UIKit/UITableViewCell.h>
 
+//Apollo is Swift, so we will use an Objective-C class rather than a Swift one. (Swift classes are harder to hook)
+
 %hook UITableViewCell
 -(void) layoutSubviews {
     
-    if ([self.textLabel.text isEqualToString:@"App Icon"]) {
+    if ([self.textLabel.text isEqualToString:@"App Icon"]) {    //Detect the cell that says "App Icon" because that won't work below 10.3.3
         self.textLabel.text = @"";
-        self.hidden = YES;
-        self.userInteractionEnabled = NO;
+        self.hidden = YES;      //Hide it
     }
     else {
-        %orig;
+        %orig;      //If it doesn't say "App Icon", leave it alone.
     }
 }
 %end
+
+//The next bit is supposed to hide the space that was created when we removed the cell. Supposed to.
 
 %hook UITableView
 
